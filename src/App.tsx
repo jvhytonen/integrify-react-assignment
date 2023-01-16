@@ -1,4 +1,6 @@
 import React, {useEffect, useState} from 'react';
+import TableComponent from './Components/TableComponent'
+import TopBar from './Components/AppBar'
 import logo from './logo.svg';
 import './App.css';
 
@@ -9,16 +11,15 @@ function App() {
    const fetchData = async () => {
            const response = await fetch('https://restcountries.com/v3.1/all')
            const data = await response.json()
-           console.log(data)
+           setData(data)
    }
    fetchData()
   })
 
   return (
     <div className="App">
-      <header className="App-header">
-      <p>The app</p>
-      </header>
+      <TopBar/>
+      {data !== null ? <TableComponent data={data}/> : null}
     </div>
   );
 }
