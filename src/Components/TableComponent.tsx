@@ -31,16 +31,19 @@ const TableComponent = (props: DataType) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
-    const handleChangePage = () => {
-        alert('handleChangeEvent')
+    const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage:number) => {
+        setPage(newPage)
     }
     const handleChangeRowsPerPage = () => {
         alert('handleChangeRowsPerPage')
     }
+    const handleClick = () => {
+        alert('Klikkaus!')
+    }
     return (
         <>
-            <TableContainer>
-                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableContainer sx={{height: '90%'}}>
+                <Table sx={{ width: '100%' }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
                             <TableCell align="left">Flag</TableCell>
@@ -52,7 +55,9 @@ const TableComponent = (props: DataType) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {props.countries.map((item: TableDataType, index: number,) => {
+                        {props.countries
+                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                        .map((item: TableDataType, index: number,) => {
                             return (
                                 <TableRow key={index}>
                                     <TableCell sx={{ fontSize: '600%', padding: 1, lineHeight: 0 }} align="left">{item.flag}</TableCell>
@@ -60,7 +65,7 @@ const TableComponent = (props: DataType) => {
                                     <TableCell align="center">{item.region}</TableCell>
                                     <TableCell align="center">{item.population}</TableCell>
                                     <TableCell align="center"><Languages {...item.languages} /></TableCell>
-                                    <TableCell align="center"><KeyboardArrowRightIcon /></TableCell>
+                                    <TableCell sx={{cursor: 'pointer'}} align="center" onClick={handleClick}><KeyboardArrowRightIcon /></TableCell>
                                 </TableRow>
                             )
                         })}
@@ -70,7 +75,7 @@ const TableComponent = (props: DataType) => {
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={15}
+                count={props.countries.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

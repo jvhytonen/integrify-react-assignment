@@ -1,58 +1,27 @@
-import React from 'react'
-import { styled, alpha } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton'
-import InputBase from '@mui/material/InputBase';
 import MenuIcon from '@mui/icons-material/Menu';
 import Typography from '@mui/material/Typography';
 import SearchIcon from '@mui/icons-material/Search'
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import { DataType } from './TableComponent'
 
-// Search, SearchIconWrapper and StyledInputBase are from MUI-documentation
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-        backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginLeft: 'auto',
-    marginRight:'20px',
-    width: '20%',
-}));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-        padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-        transition: theme.transitions.create('width'),
-        width: '100%',
-    },
-}));
-
-const TopBar = () => {
-
+const TopBar = (props: DataType) => {
+    const filterOptions = createFilterOptions({
+        matchFrom: 'any',
+        stringify: (option: any) => option.name.official
+    });
     return (
         <AppBar
             position="static">
             <Toolbar>
-                <MenuIcon 
-                sx={{
-                    marginLeft: '2px'
-                }}/>
+                <MenuIcon
+                    sx={{
+                        marginLeft: '2px'
+                    }} />
                 <Typography
                     variant="h5"
                     noWrap
@@ -63,15 +32,21 @@ const TopBar = () => {
                 >
                     Countries
                 </Typography>
-                <Search>
-                    <SearchIconWrapper>
-                        <SearchIcon />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                        placeholder="Search…"
-                        inputProps={{ 'aria-label': 'search' }}
+                <Box sx={{marginLeft: 'auto'}}>
+                <Box sx={{position: 'relative', display: 'flex', justifyContent: 'space-between'}}>
+                    <SearchIcon sx={{position: 'absolute', top: '25%', fontSize: '1.8rem'}} />
+                    <Autocomplete
+                        freeSolo
+                        options={props.countries}
+                        getOptionLabel={(option) => option.name.official}
+                        filterOptions={filterOptions}
+                        onChange={(e, value) => alert(value.name.official)}
+                        sx={{ width: 300 }}
+                        //Adding empty space to label is a bit hacky solution, but works 
+                        renderInput={(params) => <TextField {...params} label="&nbsp; &nbsp; Search country by name" />}
                     />
-                </Search>
+                </Box>
+                </Box>
             </Toolbar>
         </AppBar>
     )

@@ -1,9 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import TableComponent from './Components/TableComponent'
 import TopBar from './Components/AppBar'
-import logo from './logo.svg';
 import './App.css';
-import DataType from './Components/TableComponent'
 
 
 function App() {
@@ -20,7 +18,7 @@ function App() {
 
   return (
     <div className="App">
-      <TopBar/>
+      {data !== null ? <TopBar countries={data}/> : null}
       {data !== null ? <TableComponent countries={data}/> : null}
     </div>
   );

@@ -6,9 +6,9 @@ export interface LanguagesType {
 
 const Languages = (props:LanguagesType) => {
     const languages = Object.values(props)
-    const languageItems = languages.map((item) => {
+    const languageItems = languages.map((item, index) => {
         return(
-            <li>{item}</li>
+            <li key={index}>{item}</li>
         )
     }) 
     return (
