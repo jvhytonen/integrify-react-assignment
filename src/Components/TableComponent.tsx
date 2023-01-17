@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,33 +6,76 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import Languages, { LanguagesType } from './Languages'
+import TablePagination from '@mui/material/TablePagination';
 
-const TableComponent = (props: any) => {
-    
+
+export interface DataType {
+    countries: TableDataType[]
+}
+
+interface TableDataType {
+    flag: string
+    name: CountryNamesType
+    region: string
+    population: number
+    languages: LanguagesType
+}
+
+interface CountryNamesType {
+    name: string
+    common: string
+}
+
+const TableComponent = (props: DataType) => {
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const handleChangePage = () => {
+        alert('handleChangeEvent')
+    }
+    const handleChangeRowsPerPage = () => {
+        alert('handleChangeRowsPerPage')
+    }
     return (
         <>
-        <TableContainer>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell align="center">Flag</TableCell>
-                        <TableCell align="center">Name</TableCell>
-                        <TableCell align="center">Region</TableCell>
-                        <TableCell align="center">Population</TableCell>
-                        <TableCell align="center">Languages</TableCell>
-                        <TableCell align="center"></TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableRow>
-                <TableCell align="center">Flag here</TableCell>
-                            <TableCell align="center">Argentina</TableCell>
-                            <TableCell align="center">South America</TableCell>
-                            <TableCell align="center">5</TableCell>
-                            <TableCell align="center">Spanish</TableCell>
-                            <TableCell align="center"><KeyboardArrowRightIcon/></TableCell>
-                </TableRow>
-            </Table>
-        </TableContainer> 
+            <TableContainer>
+                <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align="left">Flag</TableCell>
+                            <TableCell align="center">Name</TableCell>
+                            <TableCell align="center">Region</TableCell>
+                            <TableCell align="center">Population</TableCell>
+                            <TableCell align="center">Languages</TableCell>
+                            <TableCell align="center"></TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {props.countries.map((item: TableDataType, index: number,) => {
+                            return (
+                                <TableRow key={index}>
+                                    <TableCell sx={{ fontSize: '600%', padding: 1, lineHeight: 0 }} align="left">{item.flag}</TableCell>
+                                    <TableCell align="center">{item.name.common}</TableCell>
+                                    <TableCell align="center">{item.region}</TableCell>
+                                    <TableCell align="center">{item.population}</TableCell>
+                                    <TableCell align="center"><Languages {...item.languages} /></TableCell>
+                                    <TableCell align="center"><KeyboardArrowRightIcon /></TableCell>
+                                </TableRow>
+                            )
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[5, 10, 25]}
+                component="div"
+                count={15}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </>
     )
 }

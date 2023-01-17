@@ -3,6 +3,8 @@ import TableComponent from './Components/TableComponent'
 import TopBar from './Components/AppBar'
 import logo from './logo.svg';
 import './App.css';
+import DataType from './Components/TableComponent'
+
 
 function App() {
 
@@ -14,12 +16,12 @@ function App() {
            setData(data)
    }
    fetchData()
-  })
+  },[])
 
   return (
     <div className="App">
       <TopBar/>
-      {data !== null ? <TableComponent data={data}/> : null}
+      {data !== null ? <TableComponent countries={data}/> : null}
     </div>
   );
 }
