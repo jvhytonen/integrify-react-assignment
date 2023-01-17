@@ -15,7 +15,7 @@ const TopBar = (props: DataType) => {
         stringify: (option: any) => option.name.official
     });
     return (
-        <AppBar
+       <AppBar
             position="static">
             <Toolbar>
                 <MenuIcon
@@ -35,7 +35,7 @@ const TopBar = (props: DataType) => {
                 <Box sx={{marginLeft: 'auto'}}>
                 <Box sx={{position: 'relative', display: 'flex', justifyContent: 'space-between'}}>
                     <SearchIcon sx={{position: 'absolute', top: '25%', fontSize: '1.8rem'}} />
-                    <Autocomplete
+                    {props.countries !== null ? <Autocomplete
                         freeSolo
                         options={props.countries}
                         getOptionLabel={(option) => option.name.official}
@@ -44,7 +44,7 @@ const TopBar = (props: DataType) => {
                         sx={{ width: 300 }}
                         //Adding empty space to label is a bit hacky solution, but works 
                         renderInput={(params) => <TextField {...params} label="&nbsp; &nbsp; Search country by name" />}
-                    />
+                    /> : null}
                 </Box>
                 </Box>
             </Toolbar>

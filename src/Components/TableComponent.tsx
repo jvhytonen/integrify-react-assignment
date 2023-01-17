@@ -9,9 +9,8 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Languages, { LanguagesType } from './Languages'
 import TablePagination from '@mui/material/TablePagination';
 
-
 export interface DataType {
-    countries: TableDataType[]
+    countries: TableDataType[] | null
 }
 
 interface TableDataType {
@@ -41,8 +40,8 @@ const TableComponent = (props: DataType) => {
         alert('Klikkaus!')
     }
     return (
-        <>
-            <TableContainer sx={{height: '90%'}}>
+          <>
+          <TableContainer sx={{height: '90%'}}>
                 <Table sx={{ width: '100%' }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
@@ -54,6 +53,7 @@ const TableComponent = (props: DataType) => {
                             <TableCell align="center"></TableCell>
                         </TableRow>
                     </TableHead>
+                    {props.countries !== null ? 
                     <TableBody>
                         {props.countries
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -70,8 +70,10 @@ const TableComponent = (props: DataType) => {
                             )
                         })}
                     </TableBody>
+                    : null }
                 </Table>
             </TableContainer>
+            {props.countries !== null ?
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
@@ -80,7 +82,7 @@ const TableComponent = (props: DataType) => {
                 page={page}
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            /> : null }
         </>
     )
 }

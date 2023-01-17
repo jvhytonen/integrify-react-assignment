@@ -1,12 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import TableComponent from './Components/TableComponent'
-import TopBar from './Components/AppBar'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Home from './Components/Home'
 import './App.css';
+import CountryDetails from './Components/CountryDetails';
+
 
 
 function App() {
-
   const [data, setData] = useState(null)
+  const router = createBrowserRouter([
+    {path: '/' , element: <Home countries={data}/>},
+    {path: '/countries/:country' , element: <CountryDetails/> },
+  
+  ])
   useEffect(() => {
    const fetchData = async () => {
            const response = await fetch('https://restcountries.com/v3.1/all')
@@ -18,8 +24,7 @@ function App() {
 
   return (
     <div className="App">
-      {data !== null ? <TopBar countries={data}/> : null}
-      {data !== null ? <TableComponent countries={data}/> : null}
+     {data !== null ? <RouterProvider router={router}/> : null}
     </div>
   );
 }
