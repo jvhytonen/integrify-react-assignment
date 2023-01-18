@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,12 +9,9 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Languages, { LanguagesType } from './Languages'
 import TablePagination from '@mui/material/TablePagination';
 import { Link } from 'react-router-dom'
+import {CountryContext} from '../../App'
 
-export interface DataType {
-    countries: TableDataType[] | null
-}
-
-interface TableDataType {
+export interface TableDataType {
     flag: string
     name: CountryNamesType
     region: string
@@ -27,9 +24,10 @@ interface CountryNamesType {
     common: string
 }
 
-const TableComponent = (props: DataType) => {
+const TableComponent = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+    const ctx = useContext(CountryContext)
 
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage:number) => {
         setPage(newPage)
@@ -52,9 +50,9 @@ const TableComponent = (props: DataType) => {
                             <TableCell align="center"></TableCell>
                         </TableRow>
                     </TableHead>
-                    {props.countries !== null ? 
+                    {ctx !== null ? 
                     <TableBody>
-                        {props.countries
+                        {ctx.data
                         .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                         .map((item: TableDataType, index: number,) => {
                             return (
@@ -72,11 +70,11 @@ const TableComponent = (props: DataType) => {
                     : null }
                 </Table>
             </TableContainer>
-            {props.countries !== null ?
+            {ctx !== null ?
             <TablePagination
                 rowsPerPageOptions={[5, 10, 25]}
                 component="div"
-                count={props.countries.length}
+                count={ctx.data.length}
                 rowsPerPage={rowsPerPage}
                 page={page}
                 onPageChange={handleChangePage}

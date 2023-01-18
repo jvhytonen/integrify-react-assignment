@@ -1,12 +1,14 @@
-import React from 'react'
-import TableComponent, { DataType } from './TableComponent'
-import TopBar from './AppBar'
+import React, {useContext} from 'react'
+import TableComponent from './Table/TableComponent'
+import TopBar from './Topbar/TopBar'
+import {CountryContext} from '../App'
 
-const Home = (props:DataType) => {
+const Home = () => {
+    const ctx = useContext(CountryContext)
     return (
         <>
-            {props.countries !== null ? <TopBar countries={props.countries} /> : null}
-            {props.countries !== null ? <TableComponent countries={props.countries} /> : null}
+            {ctx !== null ? <TopBar /> : null}
+            {ctx !== null ? <TableComponent /> : null}
         </>
     )
 }

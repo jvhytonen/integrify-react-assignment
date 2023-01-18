@@ -14,10 +14,10 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Box from '@mui/material/Box';
 import './CountryDetails.css';
+import { DataType } from '../../utils/helpers';
 
 const CountryDetails = () => {
   const [data, setData] = useState<any>(null)
-  // const [expanded, setExpanded] = useState<boolean>(false)
   const params = useParams()
   const url = 'https://restcountries.com/v3.1/name/' + params.country
   useEffect(() => {
@@ -30,6 +30,16 @@ const CountryDetails = () => {
   }, [url])
 
   const spanStyle = {color: 'blue'}
+  
+  // Checks if the country has a capital. Not every country has one e.g Antarctica.
+  const checkCapital = (capitals: DataType) => {
+    if (capitals === undefined) {
+      return ' '
+    }
+    else {
+      return capitals[0]
+    }
+  }
 
   return (
     <>
@@ -43,14 +53,14 @@ const CountryDetails = () => {
             }
             titleTypographyProps={{variant:'h6' }}
             title={data.name.common}
-            subheader={data.capital[0]}
+            subheader={checkCapital(data.capital)}
             action={
               <IconButton aria-label="settings">
                 <MoreVertIcon />
               </IconButton>
             }
           />
-          {/* The flag as string character. Pseudo-class definition done in CountryDetails.css */}
+          {/* The flag is a string character. Pseudo-class definition done in CountryDetails.css for a string to work as Card image.*/}
           <Typography className="Flag" sx={{ height: 250, width: '100%', lineHeight: 1.2, fontSize: '1400%' }}>
             {data.flag}
           </Typography>
