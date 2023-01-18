@@ -7,7 +7,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { DataType } from './TableComponent'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 
 const TopBar = (props: DataType) => {
@@ -15,6 +15,8 @@ const TopBar = (props: DataType) => {
         matchFrom: 'any',
         stringify: (option: any) => option.name.official
     });
+    const navigate = useNavigate();
+
     return (
        <AppBar
             position="static">
@@ -41,7 +43,7 @@ const TopBar = (props: DataType) => {
                         options={props.countries}
                         getOptionLabel={(option) => option.name.official}
                         filterOptions={filterOptions}
-                        onChange={(e, value) => <Link to={'/countries/sweden}'}/>}
+                        onChange={(e, value) => navigate(`/countries/${value.name.official}`)}
                         sx={{ width: 300 }}
                         //Adding empty space to label is a bit hacky solution, but works 
                         renderInput={(params) => <TextField {...params} label="&nbsp; &nbsp; Search country by name" />}
