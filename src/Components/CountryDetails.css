@@ -1,0 +1,12 @@
+.Flag {
+    text-align: center;
+}
+
+.Flag:after {
+    content: "";
+    display: inline-block;
+}
+
+.MuiCardHeader-title {
+    text-transform: uppercase;
+} 

@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Languages, { LanguagesType } from './Languages'
 import TablePagination from '@mui/material/TablePagination';
+import { Link } from 'react-router-dom'
 
 export interface DataType {
     countries: TableDataType[] | null
@@ -33,11 +34,9 @@ const TableComponent = (props: DataType) => {
     const handleChangePage = (event: React.MouseEvent<HTMLButtonElement> | null, newPage:number) => {
         setPage(newPage)
     }
-    const handleChangeRowsPerPage = () => {
-        alert('handleChangeRowsPerPage')
-    }
-    const handleClick = () => {
-        alert('Klikkaus!')
+    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setRowsPerPage(parseInt(event.target.value, 10));
+        setPage(0);
     }
     return (
           <>
@@ -46,10 +45,10 @@ const TableComponent = (props: DataType) => {
                     <TableHead>
                         <TableRow>
                             <TableCell align="left">Flag</TableCell>
-                            <TableCell align="center">Name</TableCell>
-                            <TableCell align="center">Region</TableCell>
-                            <TableCell align="center">Population</TableCell>
-                            <TableCell align="center">Languages</TableCell>
+                            <TableCell align="left">Name</TableCell>
+                            <TableCell align="left">Region</TableCell>
+                            <TableCell align="left">Population</TableCell>
+                            <TableCell align="left">Languages</TableCell>
                             <TableCell align="center"></TableCell>
                         </TableRow>
                     </TableHead>
@@ -61,11 +60,11 @@ const TableComponent = (props: DataType) => {
                             return (
                                 <TableRow key={index}>
                                     <TableCell sx={{ fontSize: '600%', padding: 1, lineHeight: 0 }} align="left">{item.flag}</TableCell>
-                                    <TableCell align="center">{item.name.common}</TableCell>
-                                    <TableCell align="center">{item.region}</TableCell>
-                                    <TableCell align="center">{item.population}</TableCell>
-                                    <TableCell align="center"><Languages {...item.languages} /></TableCell>
-                                    <TableCell sx={{cursor: 'pointer'}} align="center" onClick={handleClick}><KeyboardArrowRightIcon /></TableCell>
+                                    <TableCell align="left">{item.name.common}</TableCell>
+                                    <TableCell align="left">{item.region}</TableCell>
+                                    <TableCell align="left">{item.population}</TableCell>
+                                    <TableCell align="left"><Languages {...item.languages} /></TableCell>
+                                    <TableCell sx={{cursor: 'pointer'}} align="center"><Link to={`/countries/${item.name.common}`}><KeyboardArrowRightIcon /></Link></TableCell>
                                 </TableRow>
                             )
                         })}

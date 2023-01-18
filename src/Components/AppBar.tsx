@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import { DataType } from './TableComponent'
+import { Link } from 'react-router-dom'
 
 
 const TopBar = (props: DataType) => {
@@ -30,7 +31,7 @@ const TopBar = (props: DataType) => {
                         marginLeft: 5
                     }}
                 >
-                    Countries
+                    Country
                 </Typography>
                 <Box sx={{marginLeft: 'auto'}}>
                 <Box sx={{position: 'relative', display: 'flex', justifyContent: 'space-between'}}>
@@ -40,7 +41,7 @@ const TopBar = (props: DataType) => {
                         options={props.countries}
                         getOptionLabel={(option) => option.name.official}
                         filterOptions={filterOptions}
-                        onChange={(e, value) => alert(value.name.official)}
+                        onChange={(e, value) => <Link to={'/countries/sweden}'}/>}
                         sx={{ width: 300 }}
                         //Adding empty space to label is a bit hacky solution, but works 
                         renderInput={(params) => <TextField {...params} label="&nbsp; &nbsp; Search country by name" />}
